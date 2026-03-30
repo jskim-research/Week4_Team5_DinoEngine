@@ -83,15 +83,21 @@ void SSplitterH::Initialize(FRect rect)
 
 void SSplitterH::UpdateBarPosition(FPoint detlaCoord)
 {
-	float totalHeight = SideLT->GetWindowSize().Height + SideRB->GetWindowSize().Height;
-	if (totalHeight > 0.f)
-		SplitRatio += detlaCoord.PointY / totalHeight;
-	SplitRatio = max(0.01f, min(0.99f, SplitRatio));  // 범위 제한
+	Bar.TopLeftY += 5;// detlaCoord.PointY;
+	float minY, maxY;
+	if (SSplitter* splitterSideLT = dynamic_cast<SSplitter*>(SideLT))
+	{
+		minY = splitterSideLT->GetBarRect().TopLeftY + SSplitter::BarWidth;
+		Bar.TopLeftY = max(minY, Bar.TopLeftY);
+	}
+	if (SSplitter* splitterSideRB = dynamic_cast<SSplitter*>(SideRB)) {
+		maxY = splitterSideRB->GetBarRect().TopLeftY - SSplitter::BarWidth;
+		Bar.TopLeftY = min(maxY, Bar.TopLeftY);
 
-	// Bar, SideLT, SideRB는 UpdateNewSize가 처리하게 위임
-	UpdateNewSize(Rect);
+	}
+	SplitRatio = Bar.TopLeftY / Rect.Height;
 
-	UE_LOG("New Bar Position : ( %f )", Bar.TopLeftY);
+	UE_LOG("New Bar Position : ( %f, %f )", detlaCoord.PointX, detlaCoord.PointY);
 }
 
 void SSplitterH::SetRatio(float newRatio)
@@ -137,7 +143,6 @@ bool SSplitterH::isMouseHoverOnBar(FPoint coord)
 	float minY = Bar.TopLeftY;
 	float maxY = Bar.TopLeftY + Bar.Height;
 	// isMouseHoverOnBar 안에서
-	UE_LOG("Bar: %f %f %f %f", Bar.TopLeftX, Bar.TopLeftY, Bar.TopLeftX + Bar.Width, Bar.TopLeftY + Bar.Height);
 	if (coord.PointX >= minX && coord.PointX <= maxX
 		&& coord.PointY >= minY && coord.PointY <= maxY)
 	{
@@ -187,14 +192,18 @@ void SSplitterV::Initialize(FRect rect)
 void SSplitterV::UpdateBarPosition(FPoint detlaCoord)
 {
 	Bar.TopLeftX += detlaCoord.PointX;
+	float minX, maxX;
+	if (SSplitter* splitterSideLT = dynamic_cast<SSplitter*>(SideLT))
+	{
+		minX = splitterSideLT->GetBarRect().TopLeftX + SSplitter::BarWidth;
+		Bar.TopLeftX = max(minX, Bar.TopLeftX);
+	}
+	if (SSplitter* splitterSideRB = dynamic_cast<SSplitter*>(SideRB)) {
+		maxX = splitterSideRB->GetBarRect().TopLeftX - SSplitter::BarWidth;
+		Bar.TopLeftX = min(maxX, Bar.TopLeftX);
 
-	float totalWidth = SideLT->GetWindowSize().Width + SideRB->GetWindowSize().Width;
-	if (totalWidth > 0.f)
-		SplitRatio += detlaCoord.PointX / totalWidth;
-	SplitRatio = max(0.01f, min(0.99f, SplitRatio));
-
-	UpdateNewSize(Rect);
-
+	}
+	SplitRatio = Bar.TopLeftX / Rect.Width;
 	UE_LOG("New Bar Position : ( %f, %f )", detlaCoord.PointX, detlaCoord.PointY);
 }
 
@@ -218,6 +227,7 @@ void SSplitterV::UpdateNewSize(FRect newRect)
 	Bar.TopLeftY = newRect.TopLeftY;
 
 	if (SideLT) {
+
 		FRect rectLT;
 		rectLT.TopLeftX = newRect.TopLeftX;
 		rectLT.TopLeftY = newRect.TopLeftY;
@@ -247,7 +257,6 @@ bool SSplitterV::isMouseHoverOnBar(FPoint coord)
 	{
 		return this;
 	}
-	UE_LOG("Bar: %f %f %f %f", Bar.TopLeftX, Bar.TopLeftY, Bar.TopLeftX + Bar.Width, Bar.TopLeftY + Bar.Height);
 	if (coord.PointX >= minX && coord.PointX <= maxX
 		&& coord.PointY >= minY && coord.PointY <= maxY)
 	{
