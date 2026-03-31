@@ -4,25 +4,25 @@
     "FarClip": 1000.0,
     "NearClip": 0.10000000149011612,
     "Position": [
-      -19.382064819335938,
-      -5.6986517906188965,
-      12.951982498168945
+      -8.26485538482666,
+      3.831108570098877,
+      4.801546573638916
     ],
     "Rotation": [
-      26.599992752075195,
-      -35.4000244140625
+      -14.599992752075195,
+      -26.400022506713867
     ]
   },
   "Materials": [
-    "Assets/Materials/M_TintYellow.json",
     "Assets/Materials/M_BlueColor.json",
-    "Assets/Materials/M_Sky.json",
     "Assets/Materials/M_Gizmos.json",
-    "Assets/Materials/M_RedColor.json",
     "Assets/Materials/M_GreenColor.json",
-    "Assets/Materials/M_Wireframe.json"
+    "Assets/Materials/M_Wireframe.json",
+    "Assets/Materials/M_RedColor.json",
+    "Assets/Materials/M_Sky.json",
+    "Assets/Materials/M_TintYellow.json"
   ],
-  "NextUUID": 38,
+  "NextUUID": 22,
   "Primitives": {
     "0": {
       "Billboard": true,
@@ -152,13 +152,51 @@
       "Billboard": true,
       "Class": "AStaticMeshActor",
       "ComponentUUIDs": [
+        16,
+        17
+      ],
+      "Location": [
+        -5.374265193939209,
+        -1.4553282260894775,
+        3.7815613746643066
+      ],
+      "MaterialOverrides": [
+        {
+          "MapKd": "\\Assets\\Meshes\\12213_bird_diffuse.jpg",
+          "Name": "12213_bird"
+        }
+      ],
+      "ObjStaticMeshAsset": "\\Assets\\Meshes\\12213_Bird_v1_l3.obj",
+      "Rotation": [
+        -0.0,
+        0.0,
+        -0.0
+      ],
+      "Scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Text": "Text",
+      "TextColor": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "UUID": 15
+    },
+    "5": {
+      "Billboard": true,
+      "Class": "AStaticMeshActor",
+      "ComponentUUIDs": [
         20,
         21
       ],
       "Location": [
-        -5.594376564025879,
-        0.7989869117736816,
-        2.774667501449585
+        -5.7454071044921875,
+        3.0189597606658936,
+        2.5162572860717773
       ],
       "MaterialOverrides": [
         {
@@ -178,12 +216,12 @@
           "Name": "脸"
         },
         {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/头发.png",
-          "Name": "头发"
+          "MapKd": "\\Assets\\Meshes\\12213_bird_diffuse.jpg",
+          "Name": "12213_bird"
         },
         {
-          "MapKd": "",
-          "Name": "表情"
+          "MapKd": "\\Assets\\Meshes\\12213_bird_diffuse.jpg",
+          "Name": "12213_bird"
         },
         {
           "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
@@ -194,12 +232,12 @@
           "Name": "衣服"
         },
         {
-          "MapKd": "\\Assets\\Meshes\\12213_bird_diffuse.jpg",
-          "Name": "12213_bird"
+          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
+          "Name": "裤子"
         },
         {
-          "MapKd": "\\Assets\\Meshes\\12213_bird_diffuse.jpg",
-          "Name": "12213_bird"
+          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
+          "Name": "背饰"
         },
         {
           "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
@@ -233,44 +271,6 @@
         1.0
       ],
       "UUID": 19
-    },
-    "5": {
-      "Billboard": true,
-      "Class": "AStaticMeshActor",
-      "ComponentUUIDs": [
-        36,
-        37
-      ],
-      "Location": [
-        -9.633460998535156,
-        -6.775829792022705,
-        7.4612274169921875
-      ],
-      "MaterialOverrides": [
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/脸.png",
-          "Name": "脖子"
-        }
-      ],
-      "ObjStaticMeshAsset": "\\Assets\\Meshes\\12213_Bird_v1_l3.obj",
-      "Rotation": [
-        -0.0,
-        0.0,
-        -0.0
-      ],
-      "Scale": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "Text": "Text",
-      "TextColor": [
-        1.0,
-        1.0,
-        1.0,
-        1.0
-      ],
-      "UUID": 35
     }
   }
 }
