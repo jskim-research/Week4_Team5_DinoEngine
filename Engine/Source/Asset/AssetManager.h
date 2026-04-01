@@ -380,8 +380,8 @@ public:
 };
 
 // =========================
-// Asset Manager
-// =========================
+	// Asset Manager
+	// =========================
 
 class ENGINE_API FAssetManager
 {

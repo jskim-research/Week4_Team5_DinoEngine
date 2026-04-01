@@ -1,0 +1,24 @@
+## AAA.mat
+
+## subsection 등에 mapping 되는 material name
+newmtl Dorumon
+
+# Shader
+Shader DefaultLit.hlsl
+
+# Textures
+# map_Kd -> Textures.BaseColor
+Textures.BaseColor dorumon.png
+Textures.Normal dorumon_n.png
+Textures.Metallic dorumon_m.png
+Textures.Roughness dorumon_r.png
+
+# Scalars
+Scalars.Roughness 0.5
+Scalars.Metallic 1.0
+
+# Vectors (Color, etc)
+# Ka/Kd/Ke -> Vectors.ColorTint
+Vectors.ColorTint 1.0 1.0 1.0
+
+newmtl Test
