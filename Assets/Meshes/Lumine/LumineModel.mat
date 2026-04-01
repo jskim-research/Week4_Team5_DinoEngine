@@ -1,0 +1,65 @@
+newmtl 头发
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/头发.png
+
+newmtl 手套
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/衣服.png
+
+newmtl 皮肤
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/衣服.png
+
+newmtl 眼白
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/脸.png
+
+newmtl 眼睛
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/头发.png
+
+newmtl 背饰
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/衣服.png
+
+newmtl 脖子
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/脸.png
+
+newmtl 脸
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/脸.png
+
+newmtl 衣服
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/衣服.png
+
+newmtl 表情
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor 
+
+newmtl 裙子
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/衣服.png
+
+newmtl 裤子
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/衣服.png
+
+newmtl 鞋子
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Texture/衣服.png
+

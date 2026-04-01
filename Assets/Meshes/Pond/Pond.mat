@@ -1,0 +1,20 @@
+newmtl material9
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Textures/Shoreline.png
+
+newmtl material10
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Textures/WaterDistortion.png
+
+newmtl material11
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Textures/PerlinNoise.png
+
+newmtl material12
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor Textures/WaterDistortion.png
+

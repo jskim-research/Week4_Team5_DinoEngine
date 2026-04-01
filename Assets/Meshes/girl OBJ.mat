@@ -1,0 +1,35 @@
+newmtl BOT
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor bot color.jpg
+
+newmtl BOdy_Skin
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor BOdy Skin Base Color.png
+
+newmtl FACE
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor FACE Base Color apha.png
+
+newmtl Hair
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor COLORS.jpg
+
+newmtl Head
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor BOdy Skin Base Color.png
+
+newmtl Scarf
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor COLORS.jpg
+
+newmtl Top
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor top color.png
+

@@ -219,17 +219,17 @@ void AActor::Serialize(FArchive& Ar)
 			FString ObjStaticMeshAsset = SMComp->GetStaticMesh()->GetAsset()->Path;
 			Ar.Serialize("ObjStaticMeshAsset", ObjStaticMeshAsset);
 			TArray<FString> MaterialNames;
-			TArray<FString> TextureNames;
+			TArray<FString> MaterialPaths;
 			for (auto Mat : SMComp->GetOverrideMaterials())
 			{
 				MaterialNames.push_back(Mat ? Mat->GetOriginName() : "");
 
-				FString TexPath = "";
-				if (Mat && Mat->GetMaterialTexture())
-					TexPath = Mat->GetMaterialTexture()->FilePath;
-				TextureNames.push_back(TexPath);
+				//FString TexPath = "";
+				//if (Mat && Mat->GetMaterialTexture())
+				//	TexPath = Mat->GetMaterialTexture()->FilePath;
+				MaterialPaths.push_back(Mat->GetRelativeMaterialPath());
 			}
-			Ar.SerializeMaterialTexture("MaterialOverrides", MaterialNames, TextureNames);
+			Ar.SerializeMaterialTexture("MaterialOverrides", MaterialNames, MaterialPaths);
 		}
 	}
 	else//Load 
@@ -323,11 +323,11 @@ void AActor::Serialize(FArchive& Ar)
 			}
 
 			TArray<FString> MaterialNames;
-			TArray<FString> TextureNames;
-			Ar.SerializeMaterialTexture("MaterialOverrides", MaterialNames, TextureNames);
+			TArray<FString> MaterialPaths;
+			Ar.SerializeMaterialTexture("MaterialOverrides", MaterialNames, MaterialPaths);
 			for (int i = 0;i < MaterialNames.size();++i)
 			{
-				FAssetManager::LoadMaterialTexture(MaterialNames[i], TextureNames[i]);
+				FAssetManager::LoadMaterialTexture(MaterialNames[i], MaterialPaths[i]);
 				SMComp->SetMaterial(i, FAssetManager::GetMaterialByName(MaterialNames[i]));
 			}
 			//FAssetManager::

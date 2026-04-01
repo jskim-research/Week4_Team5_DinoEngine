@@ -1,0 +1,5 @@
+newmtl 12213_bird
+VertexShader Engine/Shaders/TextureVertexShader.hlsl
+PixelShader Engine/Shaders/TexturePixelShader.hlsl
+Textures.BaseColor 12213_bird_diffuse.jpg
+

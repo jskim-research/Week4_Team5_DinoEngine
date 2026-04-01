@@ -43,6 +43,7 @@ struct FMatInfoElement
 struct FMatInfo
 {
 	FString RelativeParentPath = "";
+	FString RelativeMaterialPath = "";
 	TArray<FMatInfoElement> Elements;
 };
 

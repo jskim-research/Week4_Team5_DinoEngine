@@ -193,7 +193,7 @@ void FPropertyWindow::Render(FCore* Core)
 							int32 CurrentIndex = 0;
 							for (int32 j = 0; j < static_cast<int32>(AllMaterials.size()); ++j)
 							{
-								if (AllMaterials[j] == CurrentMat)
+								if (AllMaterials[j]->GetOriginName() == CurrentMat->GetOriginName())
 								{
 									CurrentIndex = j + 1; // +1: index 0 = "(none)"
 									break;

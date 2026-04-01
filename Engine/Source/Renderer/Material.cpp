@@ -253,6 +253,8 @@ void FMaterial::Release()
 {
 	VertexShader.reset();
 	PixelShader.reset();
+
+
 	RasterizerState.reset();
 	DepthStencilState.reset();
 	BlendState.reset();

@@ -63,7 +63,7 @@ bool FCore::Initialize(HWND Hwnd, int32 Width, int32 Height, ELevelType StartupL
 
 	// FMaterialImporter::LoadMaterial("/Assets/Materials/Test.mat");
 	// FMaterialImporter::LoadMaterial("/Assets/Meshes/12213_Bird_v1_l3.mtl");
-	FMaterialImporter::LoadMaterial("/Assets/Meshes/12213_Bird_v1_l3.mat");
+	// FMaterialImporter::LoadMaterial("/Assets/Meshes/12213_Bird_v1_l3.mat");
 
 	return true;
 }

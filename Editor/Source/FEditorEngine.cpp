@@ -18,6 +18,7 @@
 
 #include "Actor/StaticMeshActor.h"
 #include "Asset/AssetManager.h"
+#include "Asset/AssetImporter.h"
 #include "Utility/FileIO.h"
 
 #include "../Source/Controller/OrthoViewportController.h"
@@ -32,6 +33,8 @@ FEditorEngine::~FEditorEngine() {}
 
 void FEditorEngine::Shutdown()
 {
+	FAssetManager::CleanUp();
+	FMaterialImporter::CleanUp();
 
 	for (auto& viewportcontroller : ViewportControllerArray)
 	{

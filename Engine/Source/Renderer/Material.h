@@ -153,6 +153,9 @@ public:
 
 	void Release();
 
+	void SetRelativeMaterialPath(const FString& InPath) { RelativeMaterialPath = InPath; }
+	FString GetRelativeMaterialPath() const { return RelativeMaterialPath; }
+
 protected:
 
 	// TODO: ShaderId가 실제 사용하는 쉐이더를 반영하도록 변경
@@ -162,6 +165,8 @@ protected:
 
 	FString OriginName;
 	FString InstanceName;
+	FString RelativeMaterialPath = "";
+
 	std::shared_ptr<FVertexShader> VertexShader;
 	std::shared_ptr<FPixelShader> PixelShader;
 	// RasterizerState를 생성하기 위한 옵션, Serialize.

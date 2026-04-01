@@ -4,13 +4,13 @@
     "FarClip": 1000.0,
     "NearClip": 0.10000000149011612,
     "Position": [
-      -19.382064819335938,
-      -5.6986517906188965,
-      12.951982498168945
+      -19.05652618408203,
+      0.13305804133415222,
+      6.988107204437256
     ],
     "Rotation": [
-      26.599992752075195,
-      -35.4000244140625
+      -1.0,
+      -10.600004196166992
     ]
   },
   "Materials": [
@@ -22,7 +22,7 @@
     "Assets/Materials/M_GreenColor.json",
     "Assets/Materials/M_Wireframe.json"
   ],
-  "NextUUID": 38,
+  "NextUUID": 22,
   "Primitives": {
     "0": {
       "Billboard": true,
@@ -152,104 +152,18 @@
       "Billboard": true,
       "Class": "AStaticMeshActor",
       "ComponentUUIDs": [
-        20,
-        21
+        16,
+        17
       ],
       "Location": [
-        -5.594376564025879,
-        0.7989869117736816,
-        2.774667501449585
+        -5.741473197937012,
+        -2.2373464107513428,
+        3.6364643573760986
       ],
       "MaterialOverrides": [
         {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/头发.png",
-          "Name": "眼睛"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/脸.png",
-          "Name": "眼白"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/脸.png",
-          "Name": "脖子"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/脸.png",
-          "Name": "脸"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/头发.png",
-          "Name": "头发"
-        },
-        {
-          "MapKd": "",
-          "Name": "表情"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
-          "Name": "皮肤"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
-          "Name": "衣服"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\12213_bird_diffuse.jpg",
-          "Name": "12213_bird"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\12213_bird_diffuse.jpg",
-          "Name": "12213_bird"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
-          "Name": "裙子"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
-          "Name": "鞋子"
-        },
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/衣服.png",
-          "Name": "手套"
-        }
-      ],
-      "ObjStaticMeshAsset": "\\Assets\\Meshes\\Lumine\\LumineModel.obj",
-      "Rotation": [
-        -0.0,
-        0.0,
-        -0.0
-      ],
-      "Scale": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "Text": "Text",
-      "TextColor": [
-        1.0,
-        1.0,
-        1.0,
-        1.0
-      ],
-      "UUID": 19
-    },
-    "5": {
-      "Billboard": true,
-      "Class": "AStaticMeshActor",
-      "ComponentUUIDs": [
-        36,
-        37
-      ],
-      "Location": [
-        -9.633460998535156,
-        -6.775829792022705,
-        7.4612274169921875
-      ],
-      "MaterialOverrides": [
-        {
-          "MapKd": "\\Assets\\Meshes\\Lumine\\Texture/脸.png",
-          "Name": "脖子"
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "Scarf"
         }
       ],
       "ObjStaticMeshAsset": "\\Assets\\Meshes\\12213_Bird_v1_l3.obj",
@@ -270,7 +184,69 @@
         1.0,
         1.0
       ],
-      "UUID": 35
+      "UUID": 15
+    },
+    "5": {
+      "Billboard": true,
+      "Class": "AStaticMeshActor",
+      "ComponentUUIDs": [
+        20,
+        21
+      ],
+      "Location": [
+        -5.4485907554626465,
+        1.6197443008422852,
+        3.7111611366271973
+      ],
+      "MaterialOverrides": [
+        {
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "Head"
+        },
+        {
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "BOdy_Skin"
+        },
+        {
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "Top"
+        },
+        {
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "BOT"
+        },
+        {
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "Hair"
+        },
+        {
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "FACE"
+        },
+        {
+          "MapKd": "\\Assets\\Meshes\\girl OBJ.mat",
+          "Name": "Scarf"
+        }
+      ],
+      "ObjStaticMeshAsset": "\\Assets\\Meshes\\girl OBJ.obj",
+      "Rotation": [
+        -0.0,
+        0.0,
+        -0.0
+      ],
+      "Scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Text": "Text",
+      "TextColor": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "UUID": 19
     }
   }
 }

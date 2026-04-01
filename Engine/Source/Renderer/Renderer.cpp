@@ -279,7 +279,8 @@ bool FRenderer::Initialize(HWND InHwnd, int32 Width, int32 Height)
 		}
 
 		FTexture* Tex = FAssetManager::LoadTextureAsset("/Assets/Textures/DefaultTexture.png");
-		DefaultTextureMaterial->SetMaterialTexture(std::shared_ptr<FTexture>(Tex, [](FTexture*) {}));
+		std::shared_ptr<FTexture> SharedTex(Tex);
+		DefaultTextureMaterial->SetMaterialTexture(SharedTex);
 
 		FMaterialManager::Get().Register("M_Default_Texture", DefaultTextureMaterial);
 	}
@@ -671,7 +672,21 @@ void FRenderer::Release()
 	if (DepthStencilView) DepthStencilView->Release();
 	if (RenderTargetView) RenderTargetView->Release();
 	if (SwapChain) SwapChain->Release();
-	if (DeviceContext) DeviceContext->Release();
+
+	if (DeviceContext)
+	{
+		DeviceContext->ClearState();
+		DeviceContext->Flush();
+		DeviceContext->Release();
+	}
+
+#ifdef _DEBUG
+	ID3D11Debug* debug;
+	Device->QueryInterface(__uuidof(ID3D11Debug), (void**)&debug);
+	debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+	debug->Release();
+#endif
+
 	if (Device) Device->Release();
 }
 

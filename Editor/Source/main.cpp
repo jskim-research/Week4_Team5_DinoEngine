@@ -1,5 +1,6 @@
 #include "FEditorEngine.h"
 #include "Asset/AssetManager.h"
+#include "Asset/AssetImporter.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 {
@@ -21,8 +22,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	{
 		CoUninitialize();
 	}
-
-	FAssetManager::CleanUp();
 
 	return 0;
 }

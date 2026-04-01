@@ -288,7 +288,8 @@ void FAssetManager::CleanUp()
 
 FMaterial* FAssetManager::LoadMaterialTexture(const FString& MaterialName, const FString& TexturePath)
 {
-	return nullptr;
+	FMaterialImporter::LoadMaterial(TexturePath);
+	return GetMaterialByName(MaterialName);
 	/*
 	auto MatIt = MaterialCache.find(MaterialName);
 	if (MatIt != MaterialCache.end())
@@ -465,9 +466,6 @@ void FAssetManager::LoadMaterialAsset(const FString& PathFileName)
 		{
 			// mtl 로드
 			FMaterialImporter::LoadMaterial(PathFileName);
-
-			// mat 저장 (여기서 처리하는게 제일 자연스러움)
-			// FMaterialImporter::SaveMaterial(MatPath);
 		}
 	}
 	/*

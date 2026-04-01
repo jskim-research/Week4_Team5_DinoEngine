@@ -13,7 +13,7 @@ ID3D11Device* FMaterialImporter::Device;
 
 void FMaterialImporter::CleanUp()
 {
-	for (auto Pair : CachedMaterial)
+	for (auto& Pair : CachedMaterial)
 	{
 		if (Pair.second)
 			delete Pair.second;
@@ -47,7 +47,12 @@ void FMaterialImporter::LoadMaterial(const FString& RelativeFilePath)
 		return;
 	}
 
+	MatInfo.RelativeMaterialPath = FPaths::ToRelativePath(RelativeFilePath);
 	CookMaterial(MatInfo);
+}
+
+void FMaterialImporter::LoadMaterialTexture(const FString& MaterialName, const FString& TexturePath)
+{
 }
 
 FMaterial* FMaterialImporter::GetMaterialByName(const FString& Name)
@@ -365,6 +370,10 @@ void FMaterialImporter::CookMaterial(const FMatInfo& MatInfo)
 {
 	for (const FMatInfoElement& MatInfoElement : MatInfo.Elements)
 	{
+		if (CachedMaterial.contains(MatInfoElement.Name))
+		{
+			continue;
+		}
 		// 텍스처 셰이더 경로
 		std::filesystem::path Root = FPaths::ProjectRoot();
 
@@ -417,12 +426,14 @@ void FMaterialImporter::CookMaterial(const FMatInfo& MatInfo)
 			std::filesystem::path MtlDir = path.parent_path();
 			std::filesystem::path TexFullPath = MtlDir / FPaths::ToU8String(PathFileName);
 			FTexture* Tex = FAssetManager::LoadTextureAsset(FPaths::ToRelativePath(FPaths::FromPath(TexFullPath)));
+			std::shared_ptr<FTexture> SharedTex(Tex);
 			if (Tex)
 			{
-				Mat->SetMaterialTexture(std::shared_ptr<FTexture>(Tex, [](FTexture*) {}));
+				Mat->SetMaterialTexture(SharedTex);
 			}
 		}
 
+		Mat->SetRelativeMaterialPath(MatInfo.RelativeMaterialPath);
 		CachedMaterial[MatInfoElement.Name] = Mat;
 	}
 }
