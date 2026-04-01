@@ -27,7 +27,8 @@ void UWorld::InitializeWorld(float AspectRatio, ID3D11Device* Device)
 
 	if (Device)
 	{
-		FSceneSerializer::Load(PersistentLevel, (FPaths::LevelDir() / "DefaultLevel.json").string(), Device);
+		std::string LevelPath = reinterpret_cast<const char*>((FPaths::LevelDir() / "DefaultLevel.json").u8string().c_str());
+		FSceneSerializer::Load(PersistentLevel, LevelPath, Device);
 	}
 }
 

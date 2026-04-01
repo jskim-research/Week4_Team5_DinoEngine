@@ -293,9 +293,11 @@ bool FRenderer::Initialize(HWND InHwnd, int32 Width, int32 Height)
 
 	std::filesystem::path FolderIconPath = FPaths::AssetDir() / FString("Textures/FolderIcon.png");
 	std::filesystem::path FileIconPath = FPaths::AssetDir() / FString("Textures/FileIcon.png");
-	CreateTextureFromSTB(Device, FolderIconPath.string().c_str(), &FolderIconSRV);
-	CreateTextureFromSTB(Device, FileIconPath.string().c_str(), &FileIconSRV);
+	std::u8string FolderIconU8 = FolderIconPath.u8string();
+	std::u8string FileIconU8 = FileIconPath.u8string();
 
+	CreateTextureFromSTB(Device, reinterpret_cast<const char*>(FolderIconU8.c_str()), &FolderIconSRV);
+	CreateTextureFromSTB(Device, reinterpret_cast<const char*>(FileIconU8.c_str()), &FileIconSRV);
 	return true;
 }
 
@@ -538,10 +540,22 @@ void FRenderer::UpdateObjectConstantBuffer(const FMatrix& WorldMatrix)
 
 bool FRenderer::CreateTextureFromSTB(ID3D11Device* Device, const char* FilePath, ID3D11ShaderResourceView** OutSRV)
 {
+	// UTF-8 -> wstring 변환 후 Windows API로 파일 열기
+	int Size = MultiByteToWideChar(CP_UTF8, 0, FilePath, -1, nullptr, 0);
+	std::wstring WFilePath(Size - 1, L'\0');
+	MultiByteToWideChar(CP_UTF8, 0, FilePath, -1, &WFilePath[0], Size);
+
+	// wstring 경로로 파일을 직접 열어 메모리로 읽기
+	FILE* F = nullptr;
+	if (_wfopen_s(&F, WFilePath.c_str(), L"rb") != 0 || !F) return false;
+	if (!F) return false;
+
 	int W, H, C;
-	unsigned char* Data = stbi_load(FilePath, &W, &H, &C, 4);
+	unsigned char* Data = stbi_load_from_file(F, &W, &H, &C, 4);
+	fclose(F);
 	if (!Data) return false;
 
+	// 이하 동일
 	D3D11_TEXTURE2D_DESC Desc = {};
 	Desc.Width = W; Desc.Height = H; Desc.MipLevels = 1; Desc.ArraySize = 1;
 	Desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; Desc.SampleDesc.Count = 1;
