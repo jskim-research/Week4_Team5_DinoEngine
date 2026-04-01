@@ -7,9 +7,9 @@
 #include "Core/Paths.h"
 #include "Primitive/PrimitiveBase.h"
 #include "Asset/AssetManager.h"
+#include "Asset/AssetImporter.h"
 #include <cassert>
 #include <algorithm>
-#include "Asset/AssetManager.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "ThirdParty/stb_image.h"
 
@@ -175,6 +175,7 @@ bool FRenderer::Initialize(HWND InHwnd, int32 Width, int32 Height)
 
 	if (!CreateDeviceAndSwapChain(Hwnd, Width, Height)) return false;
 	FAssetManager::InjectDevice(Device);
+	FMaterialImporter::SetDevice(Device);
 	if (!CreateRenderTargetAndDepthStencil(Width, Height)) return false;
 
 	Viewport.TopLeftX = 0.f;

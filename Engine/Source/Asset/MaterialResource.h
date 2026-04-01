@@ -3,7 +3,7 @@
 
 struct FMtlInfoElement
 {
-	FString Name;  // newmtl {Name}
+	FString Name = "";  // newmtl {Name}
 	FVector Ka = FVector(0.0f, 0.0f, 0.0f);
 	FVector Kd = FVector(1.0f, 1.0f, 1.0f);
 	FVector Ks = FVector(0.0f, 0.0f, 0.0f);
@@ -12,11 +12,12 @@ struct FMtlInfoElement
 	float Ni = 1.0f;
 	float D = 1.0f;
 	int32 Illum = 0;
-	FString MapKd;
+	FString MapKd = "";
 };
 
 struct FMtlInfo
 {
+	FString RelativeParentPath = "";
 	TArray<FMtlInfoElement> Elements;
 };
 
@@ -31,8 +32,9 @@ struct FMtlInfo
  */
 struct FMatInfoElement
 {
-	FString Name;
-	FString Shader;  // .hlsl => VS, PS 포함
+	FString Name = "";
+	FString VertexShader = "";
+	FString PixelShader = "";
 	TMap<FString, FString> Textures;  // 경로 저장
 	TMap<FString, float> Scalars;
 	TMap<FString, FVector> Vectors;
@@ -40,6 +42,7 @@ struct FMatInfoElement
 
 struct FMatInfo
 {
+	FString RelativeParentPath = "";
 	TArray<FMatInfoElement> Elements;
 };
 

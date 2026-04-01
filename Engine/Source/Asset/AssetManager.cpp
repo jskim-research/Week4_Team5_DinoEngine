@@ -1,7 +1,7 @@
 #include "AssetManager.h"
+#include "AssetImporter.h"
 
 TMap<FString, FStaticMesh*> FAssetManager::StaticMeshCache;
-TMap<FString, FMaterial*>   FAssetManager::MaterialCache;
 TMap<FString, FTexture*>    FAssetManager::TextureCache;
 ID3D11Device* FAssetManager::Device = nullptr;
 
@@ -190,21 +190,14 @@ FStaticMesh* FAssetManager::LoadObjStaticMeshAsset(const FString& PathFileName)
 
 FMaterial* FAssetManager::GetMaterialByName(const FString& Name)
 {
-	auto It = MaterialCache.find(Name);
-	if (It != MaterialCache.end())
-		return It->second;
-	return nullptr;
+	return FMaterialImporter::GetMaterialByName(Name);
 }
 
 const TArray<FMaterial*> FAssetManager::GetAllMaterials()
 {
-	TArray<FMaterial*> Materials;
-	for (const auto& Pair : MaterialCache)
-	{
-		Materials.push_back(Pair.second);
-	}
-	return Materials;
+	return FMaterialImporter::GetAllMaterials();
 }
+
 //Relative Path Comes in
 UStaticMesh* FAssetManager::LoadObjStaticMesh(const FString& PathFileName)
 {
@@ -226,6 +219,11 @@ UStaticMesh* FAssetManager::LoadObjStaticMesh(const FString& PathFileName)
 FString FAssetManager::ToBinPath(const FString& PathFileName)
 {
 	return PathFileName.substr(0, PathFileName.find_last_of('.')) + ".bin";
+}
+
+FString FAssetManager::ToMatPath(const FString& PathFileName)
+{
+	return PathFileName.substr(0, PathFileName.find_last_of('.')) + ".mat";
 }
 
 void FAssetManager::SaveAsBin(const FString& PathFileName, const FStaticMesh& Mesh)
@@ -280,11 +278,7 @@ void FAssetManager::CleanUp()
 		delete Pair.second;
 	}
 	StaticMeshCache.clear();
-	for (auto& Pair : MaterialCache)
-	{
-		delete Pair.second;
-	}
-	MaterialCache.clear();
+
 	for (auto& Pair : TextureCache)
 	{
 		delete Pair.second;
@@ -294,6 +288,8 @@ void FAssetManager::CleanUp()
 
 FMaterial* FAssetManager::LoadMaterialTexture(const FString& MaterialName, const FString& TexturePath)
 {
+	return nullptr;
+	/*
 	auto MatIt = MaterialCache.find(MaterialName);
 	if (MatIt != MaterialCache.end())
 	{
@@ -348,6 +344,7 @@ FMaterial* FAssetManager::LoadMaterialTexture(const FString& MaterialName, const
 		MaterialCache[MaterialName] = Mat;
 		return Mat;
 	}
+	*/
 }
 
 
@@ -441,8 +438,39 @@ FTexture* FAssetManager::LoadTextureAsset(const FString& PathFileName)
 }
 
 
-FMaterial* FAssetManager::LoadMaterialAsset(const FString& PathFileName)
+void FAssetManager::LoadMaterialAsset(const FString& PathFileName)
 {
+	FString Ext = "";
+
+	SIZE_T DotIndex = PathFileName.find_last_of('.');
+	if (DotIndex != std::string::npos)
+	{
+		Ext = PathFileName.substr(DotIndex + 1);
+	}
+
+	if (Ext == "mat")
+	{
+		FMaterialImporter::LoadMaterial(PathFileName);
+	}
+	else if (Ext == "mtl")
+	{
+		FString MatPath = ToMatPath(PathFileName);
+
+		// mat 존재하면 그걸로
+		if (std::filesystem::exists(FPaths::ToU8String(FPaths::ToAbsolutePath(MatPath))))
+		{
+			FMaterialImporter::LoadMaterial(MatPath);
+		}
+		else
+		{
+			// mtl 로드
+			FMaterialImporter::LoadMaterial(PathFileName);
+
+			// mat 저장 (여기서 처리하는게 제일 자연스러움)
+			// FMaterialImporter::SaveMaterial(MatPath);
+		}
+	}
+	/*
 	FString RelativePath = FPaths::ToRelativePath(PathFileName);
 	FString AbsolutePath = FPaths::ToAbsolutePath(PathFileName);
 	if (MaterialCache.contains(RelativePath))
@@ -529,6 +557,7 @@ FMaterial* FAssetManager::LoadMaterialAsset(const FString& PathFileName)
 	}
 
 	return FirstMat;
+	*/
 }
 
 

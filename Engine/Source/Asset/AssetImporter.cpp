@@ -5,6 +5,11 @@
 #include <istream>
 #include <string>
 #include "Debug/EngineLog.h"
+#include "Renderer/ShaderMap.h"
+#include "AssetManager.h"
+
+TMap<FString, FMaterial*> FMaterialImporter::CachedMaterial;
+ID3D11Device* FMaterialImporter::Device;
 
 void FMaterialImporter::CleanUp()
 {
@@ -13,9 +18,11 @@ void FMaterialImporter::CleanUp()
 		if (Pair.second)
 			delete Pair.second;
 	}
+
+	CachedMaterial.clear();
 }
 
-FMaterial* FMaterialImporter::LoadMaterial(const FString& RelativeFilePath)
+void FMaterialImporter::LoadMaterial(const FString& RelativeFilePath)
 {
 	FMatInfo MatInfo;
 
@@ -24,10 +31,9 @@ FMaterial* FMaterialImporter::LoadMaterial(const FString& RelativeFilePath)
 		FMtlInfo MtlInfo;
 		if (LoadMtlFile(RelativeFilePath, MtlInfo))
 		{
-
+			ConvertMtlToMatInfo(MtlInfo, MatInfo);
+			SaveMat(RelativeFilePath.substr(0, RelativeFilePath.length() - 4) + ".mat", MatInfo);
 		}
-		else
-			return nullptr;
 	}
 	else if (RelativeFilePath.ends_with(".mat"))
 	{
@@ -35,20 +41,86 @@ FMaterial* FMaterialImporter::LoadMaterial(const FString& RelativeFilePath)
 		{
 
 		}
-		else
-			return nullptr;
 	}
 	else
 	{
-		return nullptr;
+		return;
 	}
 
+	CookMaterial(MatInfo);
+}
+
+FMaterial* FMaterialImporter::GetMaterialByName(const FString& Name)
+{
+	auto It = CachedMaterial.find(Name);
+	if (It != CachedMaterial.end())
+		return It->second;
 	return nullptr;
 }
 
-bool FMaterialImporter::SaveMat(const FString& RelativeSavePath)
+const TArray<FMaterial*> FMaterialImporter::GetAllMaterials()
 {
-	return false;
+	TArray<FMaterial*> Materials;
+	for (const auto& Pair : CachedMaterial)
+	{
+		Materials.push_back(Pair.second);
+	}
+	return Materials;
+}
+
+bool FMaterialImporter::SaveMat(const FString& RelativeSavePath, const FMatInfo& MatInfo)
+{
+	auto StartTime = std::chrono::high_resolution_clock::now();
+
+	FString AbsolutePath = FPaths::ToAbsolutePath(RelativeSavePath);
+	std::ofstream File(FPaths::ToU8String(AbsolutePath));
+
+	if (!File.is_open())
+	{
+		UE_LOG("Failed to open .mat file for writing: %s", RelativeSavePath.c_str());
+		return false;
+	}
+
+	for (const auto& Element : MatInfo.Elements)
+	{
+		// newmtl 라인
+		File << "newmtl " << Element.Name << "\n";
+
+		// Vertex / Pixel Shader
+		File << "VertexShader " << Element.VertexShader << "\n";
+		
+		File << "PixelShader " << Element.PixelShader << "\n";
+
+		// Textures
+		for (const auto& [Key, Value] : Element.Textures)
+		{
+			File << "Textures." << Key << " " << Value << "\n";
+		}
+
+		// Scalars
+		for (const auto& [Key, Value] : Element.Scalars)
+		{
+			File << "Scalars." << Key << " " << Value << "\n";
+		}
+
+		// Vectors
+		for (const auto& [Key, Vec] : Element.Vectors)
+		{
+			File << "Vectors." << Key << " " << Vec.X << " " << Vec.Y << " " << Vec.Z << "\n";
+		}
+
+		File << "\n"; // Material 간 구분
+	}
+
+	File.close();
+
+	auto EndTime = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> Elapsed = EndTime - StartTime;
+
+	UE_LOG("[MAT] Save Success: %s\n", RelativeSavePath.c_str());
+	UE_LOG("[MAT] Execution Time: %.6f seconds\n", Elapsed.count());
+
+	return true;
 }
 
 bool FMaterialImporter::LoadMtlFile(const FString& RelativeFilePath, FMtlInfo& OutMtlInfo)
@@ -68,6 +140,8 @@ bool FMaterialImporter::LoadMtlFile(const FString& RelativeFilePath, FMtlInfo& O
 	FMtlInfoElement MtlInfoElement;
 	FString Line;
 	bool bHasMaterial = false;
+
+	MtlInfo.RelativeParentPath = std::filesystem::path(RelativeFilePath).parent_path().string();
 
 	while (std::getline(File, Line))
 	{
@@ -167,6 +241,8 @@ bool FMaterialImporter::LoadMatFile(const FString& RelativeFilePath, FMatInfo& O
 	FString Line;
 	bool bProcessingMaterial = false;
 
+	MatInfo.RelativeParentPath = std::filesystem::path(RelativeFilePath).parent_path().string();
+
 	while (std::getline(File, Line))
 	{
 		if (Line.empty()) continue;
@@ -199,9 +275,13 @@ bool FMaterialImporter::LoadMatFile(const FString& RelativeFilePath, FMatInfo& O
 
 			std::getline(SS >> std::ws, MatInfoElement.Name);
 		}
-		else if (Type == "Shader")
+		else if (Type == "VertexShader")
 		{
-			SS >> MatInfoElement.Shader;
+			SS >> MatInfoElement.VertexShader;
+		}
+		else if (Type == "PixelShader")
+		{
+			SS >> MatInfoElement.PixelShader;
 		}
 		else if (Type.starts_with("Textures"))
 		{
@@ -260,20 +340,89 @@ bool FMaterialImporter::ConvertMtlToMatInfo(const FMtlInfo& Mtl, FMatInfo& OutMa
 {
 	FMatInfo MatInfo;
 
+	MatInfo.RelativeParentPath = Mtl.RelativeParentPath;
+
 	for (const FMtlInfoElement& MtlInfoElement : Mtl.Elements)
 	{
 		FMatInfoElement MatInfoElement;
 
 		MatInfoElement.Name = MtlInfoElement.Name;
 		MatInfoElement.Textures["BaseColor"] = MtlInfoElement.MapKd;
-		MatInfoElement.Shader = "Engine/Shaders/TextureVertexShader.hlsl";
+		// Default Shader (.mtl 파일에 없으므로 임의로 지정)
+		MatInfoElement.VertexShader = "Engine/Shaders/TextureVertexShader.hlsl";
+		MatInfoElement.PixelShader = "Engine/Shaders/TexturePixelShader.hlsl";
+
+		MatInfo.Elements.push_back(MatInfoElement);
 	}
+
+	OutMatInfo = MatInfo;
+
+
 	return true;
 }
 
-FMaterial* FMaterialImporter::CookMaterial(const FMatInfo& MatInfo)
+void FMaterialImporter::CookMaterial(const FMatInfo& MatInfo)
 {
-	return nullptr;
-}
+	for (const FMatInfoElement& MatInfoElement : MatInfo.Elements)
+	{
+		// 텍스처 셰이더 경로
+		std::filesystem::path Root = FPaths::ProjectRoot();
 
-TMap<FString, FMaterial*> FMaterialImporter::CachedMaterial;
+		std::wstring VSPath = (Root / MatInfoElement.VertexShader).wstring();
+		std::wstring PSPath = (Root / MatInfoElement.PixelShader).wstring();
+
+		auto VS = FShaderMap::Get().GetOrCreateVertexShader(Device, VSPath.c_str());
+		auto PS = FShaderMap::Get().GetOrCreatePixelShader(Device, PSPath.c_str());
+
+		FMaterial* Mat = new FMaterial();
+
+		Mat->SetOriginName(MatInfoElement.Name);
+		Mat->SetVertexShader(VS);
+		Mat->SetPixelShader(PS);
+
+		// RasterizerState 명시 설정 (없으면 이전 프레임 상태 상속되는 문제 방지)
+		{
+			FRasterizerStateOption RSOption;
+			RSOption.FillMode = D3D11_FILL_SOLID;
+			RSOption.CullMode = D3D11_CULL_NONE;  // blank spots 원인 확인용: culling 완전 비활성화
+			RSOption.DepthClipEnable = true;
+			auto RS = FRasterizerState::Create(Device, RSOption);
+			Mat->SetRasterizerOption(RSOption);
+			Mat->SetRasterizerState(RS);
+
+			FDepthStencilStateOption DSOption;
+			DSOption.DepthEnable = true;
+			DSOption.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+			auto DSS = FDepthStencilState::Create(Device, DSOption);
+			Mat->SetDepthStencilOption(DSOption);
+			Mat->SetDepthStencilState(DSS);
+		}
+
+		// b2: ColorTint(VS) + BaseColor(PS) — float4 하나 공유
+		int32 SlotIndex = Mat->CreateConstantBuffer(Device, 16);
+		if (SlotIndex >= 0)
+		{
+			Mat->RegisterParameter("BaseColor", SlotIndex, 0, 16);
+			// 기본값 흰색
+			float White[4] = { 1.f, 1.f, 1.f, 1.f };
+			Mat->SetParameterData("BaseColor", White, sizeof(White));
+		}
+
+		// Diffuse 텍스처 (MTL 파일과 같은 디렉토리에서 탐색)
+		if (MatInfoElement.Textures.contains("BaseColor"))
+		{
+			FString PathFileName = MatInfo.RelativeParentPath + "/" + MatInfoElement.Textures.find("BaseColor")->second;
+			FString RelativePath = FPaths::ToRelativePath(PathFileName);
+			std::filesystem::path path = FPaths::ToU8String(RelativePath);
+			std::filesystem::path MtlDir = path.parent_path();
+			std::filesystem::path TexFullPath = MtlDir / FPaths::ToU8String(PathFileName);
+			FTexture* Tex = FAssetManager::LoadTextureAsset(FPaths::ToRelativePath(FPaths::FromPath(TexFullPath)));
+			if (Tex)
+			{
+				Mat->SetMaterialTexture(std::shared_ptr<FTexture>(Tex, [](FTexture*) {}));
+			}
+		}
+
+		CachedMaterial[MatInfoElement.Name] = Mat;
+	}
+}

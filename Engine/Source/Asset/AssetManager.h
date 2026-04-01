@@ -388,7 +388,7 @@ class ENGINE_API FAssetManager
 private:
 	static TMap<FString, FStaticMesh*> StaticMeshCache;// EX) \\Assets\\Meshes\\Dorumon.obj 가 key가됨
 	static TMap<FString, FTexture*> TextureCache; // mtl파일의 map_kd dorumon.png이면 \\Assets\\Meshes\\dorumon.png가 key가됨
-	static TMap<FString, FMaterial*> MaterialCache;// mtl파일에서 newmtl Dorumon이면 Dorumon이 key가됨
+	
 	static ID3D11Device* Device;
 public:
 	static FStaticMesh* LoadObjStaticMeshAsset(const FString& PathFileName);
@@ -396,6 +396,7 @@ public:
 	static const TArray<FMaterial*> GetAllMaterials();
 	static UStaticMesh* LoadObjStaticMesh(const FString& PathFileName);
 	static FString ToBinPath(const FString& PathFileName);
+	static FString ToMatPath(const FString& PathFileName);
 	static void SaveAsBin(const FString& PathFileName, const FStaticMesh& Mesh);
 	static FStaticMesh* LoadFromBin(const FString& BinPath);
 	static void CleanUp();
@@ -415,6 +416,6 @@ private:
 	static bool IsValidVertexRef(const FObjInfo& Obj, const FObjVertexRef& Ref);
 	static uint32 GetOrCreateVertexIndex(FStaticMesh* Mesh, const FObjInfo& Obj, const FObjVertexRef& Ref, std::unordered_map<FObjVertexRef, uint32, FObjVertexRefHasher>& VertexMap);
 	static void AppendTriangle(FStaticMesh* Mesh, int32 SectionIndex, uint32 I0, uint32 I1, uint32 I2);
-	static FMaterial* LoadMaterialAsset(const FString& PathFileName);
+	static void LoadMaterialAsset(const FString& PathFileName);
 	static void MakeMeshData(FStaticMesh* OutMesh);
 };
