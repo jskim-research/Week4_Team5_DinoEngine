@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.37012.4
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11626.88 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{135D1BDB-24F8-4FBC-959A-F422D47E0261}"
 EndProject
@@ -21,6 +21,8 @@ Global
 		Debug|x86 = Debug|x86
 		ObjViewerDebug|x64 = ObjViewerDebug|x64
 		ObjViewerDebug|x86 = ObjViewerDebug|x86
+		ObjViewerRelease|x64 = ObjViewerRelease|x64
+		ObjViewerRelease|x86 = ObjViewerRelease|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -33,6 +35,10 @@ Global
 		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.ObjViewerDebug|x64.Build.0 = ObjViewerDebug|x64
 		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.ObjViewerDebug|x86.ActiveCfg = ObjViewerDebug|Win32
 		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.ObjViewerDebug|x86.Build.0 = ObjViewerDebug|Win32
+		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.ObjViewerRelease|x64.ActiveCfg = ObjViewerRelease|x64
+		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.ObjViewerRelease|x64.Build.0 = ObjViewerRelease|x64
+		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.ObjViewerRelease|x86.ActiveCfg = ObjViewerRelease|Win32
+		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.ObjViewerRelease|x86.Build.0 = ObjViewerRelease|Win32
 		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.Release|x64.ActiveCfg = Release|x64
 		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.Release|x64.Build.0 = Release|x64
 		{135D1BDB-24F8-4FBC-959A-F422D47E0261}.Release|x86.ActiveCfg = Release|Win32
@@ -45,6 +51,10 @@ Global
 		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.ObjViewerDebug|x64.Build.0 = ObjViewerDebug|x64
 		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.ObjViewerDebug|x86.ActiveCfg = ObjViewerDebug|Win32
 		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.ObjViewerDebug|x86.Build.0 = ObjViewerDebug|Win32
+		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.ObjViewerRelease|x64.ActiveCfg = ObjViewerRelease|x64
+		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.ObjViewerRelease|x64.Build.0 = ObjViewerRelease|x64
+		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.ObjViewerRelease|x86.ActiveCfg = ObjViewerRelease|Win32
+		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.ObjViewerRelease|x86.Build.0 = ObjViewerRelease|Win32
 		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.Release|x64.ActiveCfg = Release|x64
 		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.Release|x64.Build.0 = Release|x64
 		{784282C7-5128-4F6A-923B-1DE0BE007C0A}.Release|x86.ActiveCfg = Release|Win32
@@ -57,6 +67,10 @@ Global
 		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.ObjViewerDebug|x64.Build.0 = ObjViewerDebug|x64
 		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.ObjViewerDebug|x86.ActiveCfg = ObjViewerDebug|Win32
 		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.ObjViewerDebug|x86.Build.0 = ObjViewerDebug|Win32
+		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.ObjViewerRelease|x64.ActiveCfg = ObjViewerRelease|x64
+		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.ObjViewerRelease|x64.Build.0 = ObjViewerRelease|x64
+		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.ObjViewerRelease|x86.ActiveCfg = ObjViewerRelease|Win32
+		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.ObjViewerRelease|x86.Build.0 = ObjViewerRelease|Win32
 		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.Release|x64.ActiveCfg = Release|x64
 		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.Release|x64.Build.0 = Release|x64
 		{31536DD1-487B-419F-AA5A-1A6B996A7BEF}.Release|x86.ActiveCfg = Release|Win32
